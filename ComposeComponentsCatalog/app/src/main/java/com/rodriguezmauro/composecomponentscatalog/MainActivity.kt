@@ -39,7 +39,12 @@ class MainActivity : ComponentActivity() {
             ComposeComponentsCatalogTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column(Modifier.padding(innerPadding)) {
-                        MyTextFieldOutlined()
+                        var myText by rememberSaveable {
+                            mutableStateOf("")
+                        }
+                        MyTextField("Ejemplo de state hosting") {
+                            myText = it
+                        }
                     }
                 }
             }
@@ -98,15 +103,9 @@ fun MyTextFieldAdvanced() {
 }
 
 @Composable
-fun MyTextField() {
+fun MyTextField(name: String, onValueChanged:(String) -> Unit ) {
     Column(Modifier.fillMaxSize()) {
-        var myText by rememberSaveable {
-            mutableStateOf("")
-        }
-
-        TextField(value = myText, onValueChange = {
-            myText = it
-        })
+        TextField(value = name, onValueChange = { onValueChanged(it) })
     }
 }
 
