@@ -19,9 +19,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,10 +41,27 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetpackComponentCatalogTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MyComplexLayout(Modifier.padding(innerPadding))
+                    MyStateExample(Modifier.padding(innerPadding))
                 }
             }
         }
+    }
+}
+
+
+@Composable
+fun MyStateExample(modifier: Modifier? = null) {
+    var counter by rememberSaveable {
+        mutableIntStateOf(0)
+    }
+    Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+        Button(onClick = {
+            counter += 1
+        }) {
+            Text(text = "Pulsar")
+        }
+
+        Text(text = "He sido pulsado $counter veces")
     }
 }
 
@@ -154,6 +176,6 @@ fun MyBox(modifier: Modifier? = null) {
 @Composable
 fun GreetingPreview() {
     JetpackComponentCatalogTheme {
-        MyComplexLayout()
+        MyStateExample()
     }
 }
