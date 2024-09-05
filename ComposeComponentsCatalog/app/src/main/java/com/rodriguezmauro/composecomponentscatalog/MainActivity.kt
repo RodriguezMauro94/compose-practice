@@ -1,6 +1,7 @@
 package com.rodriguezmauro.composecomponentscatalog
 
 import android.os.Bundle
+import android.widget.CheckBox
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -9,6 +10,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,22 +28,22 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -77,11 +79,88 @@ class MainActivity : ComponentActivity() {
                         MyProgress()
 
                         MyProgressAdvance()
+
+                        MySwitch()
+
+                        MyCheckBox()
+
+                        MyCheckboxWithText()
+
+                        var stateCheckboxWithTextCompleted by rememberSaveable {
+                            mutableStateOf(false)
+                        }
+                        MyCheckboxWithTextCompleted(CheckInfo("titulo", stateCheckboxWithTextCompleted) {
+                            stateCheckboxWithTextCompleted = it
+                        })
                     }
                 }
             }
         }
     }
+}
+
+@Composable
+fun MyCheckboxWithTextCompleted(checkInfo: CheckInfo) {
+    Row(Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
+        Checkbox(checked = checkInfo.selected, onCheckedChange = { checkInfo.onCheckedChange(!checkInfo.selected) })
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(text = checkInfo.title)
+    }
+}
+
+
+@Composable
+fun MyCheckboxWithText() {
+    var state by rememberSaveable {
+        mutableStateOf(false)
+    }
+    
+    Row(Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
+        Checkbox(checked = state, onCheckedChange = { state = !state })
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(text = "Ejemplo 1")
+    }
+}
+
+@Composable
+fun MyCheckBox() {
+    var state by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    Checkbox(
+        checked = state,
+        onCheckedChange = { state = !state },
+        enabled = true,
+        colors = CheckboxDefaults.colors(
+            checkedColor = Color.Red,
+            uncheckedColor = Color.Green,
+            checkmarkColor = Color.Blue
+        )
+    )
+}
+
+@Composable
+fun MySwitch() {
+    var state by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    Switch(
+        checked = state,
+        onCheckedChange = { state = !state },
+        enabled = true,
+        colors = SwitchDefaults.colors(
+            uncheckedThumbColor = Color.Red,
+            uncheckedTrackColor = Color.Magenta,
+            checkedThumbColor = Color.Green,
+            checkedTrackColor = Color.Cyan,
+            disabledCheckedTrackColor = Color.Yellow,
+            disabledCheckedThumbColor = Color.Yellow,
+            disabledUncheckedThumbColor = Color.Yellow,
+            disabledUncheckedTrackColor = Color.Yellow
+        )
+    )
 }
 
 @Preview(showBackground = true)
