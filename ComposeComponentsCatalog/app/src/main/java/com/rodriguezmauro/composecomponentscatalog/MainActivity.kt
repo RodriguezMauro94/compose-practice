@@ -1,7 +1,6 @@
 package com.rodriguezmauro.composecomponentscatalog
 
 import android.os.Bundle
-import android.widget.CheckBox
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -34,6 +33,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -103,10 +104,48 @@ class MainActivity : ComponentActivity() {
                         }
 
                         MyTriStatusCheckbox()
+
+                        MyRadioButton()
+
+                        var stateRadioButtonsSelected by rememberSaveable {
+                            mutableStateOf("")
+                        }
+                        MyRadioButtonList(name = stateRadioButtonsSelected) {
+                            stateRadioButtonsSelected = it
+                        }
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun MyRadioButtonList(name: String, onItemSelected: (String) -> Unit) {
+    Column(Modifier.fillMaxSize()) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            RadioButton(selected = name == "Mauro", onClick = { onItemSelected("Mauro") })
+            Text(text = "Mauro")
+        }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            RadioButton(selected = name == "Jorge", onClick = { onItemSelected("Jorge") })
+            Text(text = "Jorge")
+        }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            RadioButton(selected = name == "Roberto", onClick = { onItemSelected("Roberto") })
+            Text(text = "Roberto")
+        }
+    }
+}
+
+@Composable
+fun MyRadioButton() {
+    Row(Modifier.fillMaxSize()) {
+        RadioButton(selected = false, onClick = {  }, enabled = false, colors = RadioButtonDefaults.colors(
+            selectedColor = Color.Red,
+            unselectedColor = Color.Yellow,
+            disabledSelectedColor = Color.Green
+        ))
     }
 }
 
