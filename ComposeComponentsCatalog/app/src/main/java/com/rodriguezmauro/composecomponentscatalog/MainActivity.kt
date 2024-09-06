@@ -34,6 +34,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,6 +45,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -92,10 +94,52 @@ class MainActivity : ComponentActivity() {
                         MyCheckboxWithTextCompleted(CheckInfo("titulo", stateCheckboxWithTextCompleted) {
                             stateCheckboxWithTextCompleted = it
                         })
+
+                        val myOptions = getOptions(titles = listOf("Mauro", "Raul"))
+                        Column {
+                            myOptions.forEach {
+                                MyCheckboxWithTextCompleted(checkInfo = it)
+                            }
+                        }
+
+                        MyTriStatusCheckbox()
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun MyTriStatusCheckbox() {
+    var status by rememberSaveable {
+        mutableStateOf(ToggleableState.Off)
+    }
+    
+    Row(Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
+        TriStateCheckbox(state = status, onClick = {
+            status = when(status) {
+                ToggleableState.On -> ToggleableState.Indeterminate
+                ToggleableState.Off -> ToggleableState.On
+                ToggleableState.Indeterminate -> ToggleableState.Off
+            }
+        })
+        Text(text = "Tri state checkbox")
+    }
+
+}
+
+@Composable
+fun getOptions(titles: List<String>): List<CheckInfo> {
+    return titles.map {
+        var status by rememberSaveable {
+            mutableStateOf(false)
+        }
+        CheckInfo(
+            title = it,
+            selected = status,
+            onCheckedChange = { myNewStatus -> status = myNewStatus }
+        )
     }
 }
 
