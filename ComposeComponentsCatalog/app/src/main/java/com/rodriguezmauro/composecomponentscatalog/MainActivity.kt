@@ -167,13 +167,43 @@ class MainActivity : ComponentActivity() {
                         }
                         MySimpleCustomDialog(
                             showSimpleCustomDialog,
-                            onConfirm = {
-                                showSimpleCustomDialog = false
-                                Log.d("Simple Custom Dialog", "confirmado")
-
-                            },
                             onDismiss = {
                                 showSimpleCustomDialog = false
+                            }
+                        )
+
+
+                        var showCustomDialog by remember {
+                            mutableStateOf(false)
+                        }
+                        Box(contentAlignment = Alignment.Center) {
+                            Button(onClick = { showCustomDialog = true }) {
+                                Text(text = "Mostrar simple custom dialog")
+                            }
+                        }
+                        MyCustomDialog(
+                            showCustomDialog,
+                            onDismiss = {
+                                showCustomDialog = false
+                            }
+                        )
+
+                        var showConfirmationDialog by remember {
+                            mutableStateOf(false)
+                        }
+                        Box(contentAlignment = Alignment.Center) {
+                            Button(onClick = { showConfirmationDialog = true }) {
+                                Text(text = "Mostrar simple custom dialog")
+                            }
+                        }
+                        MyConfirmationDialog(
+                            showConfirmationDialog,
+                            onConfirm = {
+                                showConfirmationDialog = false
+                                Log.d("Confirmation dialog", it)
+                            },
+                            onDismiss = {
+                                showConfirmationDialog = false
                             }
                         )
                     }
@@ -272,7 +302,7 @@ fun MyCard() {
 
 @Composable
 fun MyRadioButtonList(name: String, onItemSelected: (String) -> Unit) {
-    Column(Modifier.fillMaxSize()) {
+    Column(Modifier.fillMaxWidth()) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             RadioButton(selected = name == "Mauro", onClick = { onItemSelected("Mauro") })
             Text(text = "Mauro")
