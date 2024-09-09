@@ -137,6 +137,8 @@ class MainActivity : ComponentActivity() {
                         BasicSlider()
 
                         AdvancedSlider()
+
+                        MyRangeSlider()
                     }
                 }
             }
