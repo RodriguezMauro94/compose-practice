@@ -1,6 +1,7 @@
 package com.rodriguezmauro.composecomponentscatalog
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -9,6 +10,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -139,6 +141,21 @@ class MainActivity : ComponentActivity() {
                         AdvancedSlider()
 
                         MyRangeSlider()
+
+                        var showDialog by remember {
+                            mutableStateOf(false)
+                        }
+                        Box(contentAlignment = Alignment.Center) {
+                            Button(onClick = {
+                                showDialog = true
+                            }) {
+                                Text(text = "Mostrar dialogo")
+                            }
+                            MyDialog(showDialog) {
+                                showDialog = false
+                                Log.d("Dialog", if (it) "True" else "False")
+                            }
+                        }
                     }
                 }
             }
