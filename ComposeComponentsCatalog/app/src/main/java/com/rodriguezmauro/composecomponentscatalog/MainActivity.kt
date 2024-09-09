@@ -142,20 +142,40 @@ class MainActivity : ComponentActivity() {
 
                         MyRangeSlider()
 
-                        var showDialog by remember {
+                        var showAlertDialog by remember {
                             mutableStateOf(false)
                         }
                         Box(contentAlignment = Alignment.Center) {
                             Button(onClick = {
-                                showDialog = true
+                                showAlertDialog = true
                             }) {
                                 Text(text = "Mostrar dialogo")
                             }
-                            MyDialog(showDialog) {
-                                showDialog = false
+                            MyAlertDialog(showAlertDialog) {
+                                showAlertDialog = false
                                 Log.d("Dialog", if (it) "True" else "False")
                             }
                         }
+
+                        var showSimpleCustomDialog by remember {
+                            mutableStateOf(false)
+                        }
+                        Box(contentAlignment = Alignment.Center) {
+                            Button(onClick = { showSimpleCustomDialog = true }) {
+                                Text(text = "Mostrar simple custom dialog")
+                            }
+                        }
+                        MySimpleCustomDialog(
+                            showSimpleCustomDialog,
+                            onConfirm = {
+                                showSimpleCustomDialog = false
+                                Log.d("Simple Custom Dialog", "confirmado")
+
+                            },
+                            onDismiss = {
+                                showSimpleCustomDialog = false
+                            }
+                        )
                     }
                 }
             }
