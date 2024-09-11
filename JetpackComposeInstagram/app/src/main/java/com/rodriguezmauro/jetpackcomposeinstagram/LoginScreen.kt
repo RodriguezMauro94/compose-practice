@@ -44,6 +44,7 @@ fun LoginScreen() {
     ) {
         Header(Modifier.align(Alignment.TopEnd))
         Body(modifier = Modifier.align(Alignment.Center))
+        Footer(modifier = Modifier.align(Alignment.BottomCenter))
     }
 }
 
@@ -94,6 +95,43 @@ fun Body(modifier: Modifier) {
 }
 
 @Composable
+fun Footer(modifier: Modifier) {
+    Column(
+        modifier = modifier.fillMaxWidth()
+    ) {
+        HorizontalDivider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp), color = Color.LightGray
+        )
+        Spacer(modifier = Modifier.size(24.dp))
+        SignUp()
+        Spacer(modifier = Modifier.size(12.dp))
+    }
+}
+
+@Composable
+fun SignUp() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Don`t have an account?",
+            fontSize = 12.sp,
+            modifier = Modifier.padding(horizontal = 8.dp),
+            color = Color.Gray
+        )
+        Text(
+            text = "Sign up.",
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF4EA8E9)
+        )
+    }
+}
+
+@Composable
 fun SocialLogin() {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -125,7 +163,7 @@ fun LoginDivider() {
         HorizontalDivider(
             modifier = Modifier
                 .weight(1f)
-                .height(1.dp), color = Color.Gray
+                .height(1.dp), color = Color.LightGray
         )
         Text(
             text = "Or",
@@ -137,7 +175,7 @@ fun LoginDivider() {
         HorizontalDivider(
             modifier = Modifier
                 .weight(1f)
-                .height(2.dp), color = Color.Gray
+                .height(2.dp), color = Color.LightGray
         )
     }
 }
