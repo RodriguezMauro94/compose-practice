@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -190,9 +191,19 @@ fun LoginDivider() {
 
 @Composable
 fun LoginButton(loginEnabled: Boolean) {
-    Button(onClick = {
+    Button(
+        onClick = {
 
-    }, enabled = loginEnabled, modifier = Modifier.fillMaxWidth()) {
+        },
+        enabled = loginEnabled,
+        modifier = Modifier.fillMaxWidth(),
+        colors = ButtonDefaults.buttonColors(
+            contentColor = Color.White,
+            disabledContentColor = Color.White,
+            containerColor = Color(0xFF4EA8E9),
+            disabledContainerColor = Color(0xFF78C8F9)
+        )
+    ) {
         Text(text = "Log In")
     }
 }
@@ -232,7 +243,7 @@ fun Password(password: String, onTextChanged: (String) -> Unit) {
             unfocusedIndicatorColor = Color.Transparent
         ),
         trailingIcon = {
-            val icon = if(passwordVisibilityState) {
+            val icon = if (passwordVisibilityState) {
                 Icons.Filled.Visibility
             } else {
                 Icons.Filled.VisibilityOff
