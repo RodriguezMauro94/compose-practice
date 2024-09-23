@@ -4,9 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,14 +20,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -102,21 +113,32 @@ fun Tweet(tweetData: TweetData) {
 @Composable
 fun TweetSocial(tweetData: TweetData, modifier: Modifier) {
     Row(
-        modifier = modifier
+        modifier = modifier.fillMaxWidth()
     ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_chat),
-            contentDescription = "Comments"
-        )
-        Icon(
-            painter = painterResource(id = R.drawable.ic_rt),
-            contentDescription = "Retweets"
-        )
-        Icon(
-            painter = painterResource(id = R.drawable.ic_like),
-            contentDescription = "Likes"
-        )
+        ActionSocialIcon(R.drawable.ic_chat, tweetData.comments, Color.Black)
+        ActionSocialIcon(R.drawable.ic_rt, tweetData.retweets, Color.Green)
+        ActionSocialIcon(R.drawable.ic_like, tweetData.likes, Color.Red)
     }
+}
+
+@Composable
+fun ActionSocialIcon(@DrawableRes icon: Int, count: Int, activeColor: Color) {
+    var isClicked by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    Icon(
+        painter = painterResource(id = icon),
+        contentDescription = "Comments",
+        tint = if(isClicked) activeColor else Color.Black,
+        modifier = Modifier.padding(end = 5.dp).clickable {
+            isClicked = !isClicked
+        }
+    )
+    Text(
+        text = if (isClicked) "${count + 1}" else count.toString(),
+        modifier = Modifier.padding(end = 50.dp)
+    )
 }
 
 @Composable
