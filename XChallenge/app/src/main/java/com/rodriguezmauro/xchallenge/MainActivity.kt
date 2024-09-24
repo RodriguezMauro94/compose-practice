@@ -59,16 +59,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Tweet(tweetData: TweetData) {
-    ConstraintLayout {
-        val (tweetUserAvatar, tweetContent, tweetDivider, tweetSocial) = createRefs()
-
+    Row {
         TweetUserAvatar(
             tweetData.user,
             modifier = Modifier
-                .constrainAs(tweetUserAvatar) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                }
         )
 
         TweetContent(
@@ -76,37 +70,23 @@ fun Tweet(tweetData: TweetData) {
             modifier = Modifier
                 .padding(
                     top = 15.dp,
-                    bottom = 15.dp,
                     end = 15.dp
                 )
-                .constrainAs(tweetContent) {
-                    top.linkTo(parent.top)
-                    start.linkTo(tweetUserAvatar.end)
-                }
-        )
-
-        TweetSocial(tweetData, modifier = Modifier.constrainAs(tweetSocial) {
-            top.linkTo(tweetContent.bottom)
-            start.linkTo(tweetUserAvatar.end)
-        })
-
-        HorizontalDivider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 15.dp)
-                .constrainAs(tweetDivider) {
-                    top.linkTo(tweetSocial.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }, color = Color.LightGray
         )
     }
+
+    HorizontalDivider(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 15.dp),
+        color = Color.LightGray
+    )
 }
 
 @Composable
 fun TweetSocial(tweetData: TweetData, modifier: Modifier) {
     Row(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth().padding(top = 10.dp)
     ) {
         ActionSocialIcon(R.drawable.ic_chat, tweetData.comments, Color.Black)
         ActionSocialIcon(R.drawable.ic_rt, tweetData.retweets, Color.Green)
@@ -124,9 +104,11 @@ fun ActionSocialIcon(@DrawableRes icon: Int, count: Int, activeColor: Color) {
         painter = painterResource(id = icon),
         contentDescription = "Comments",
         tint = if(isClicked) activeColor else Color.Black,
-        modifier = Modifier.padding(end = 5.dp).clickable {
-            isClicked = !isClicked
-        }
+        modifier = Modifier
+            .padding(end = 5.dp)
+            .clickable {
+                isClicked = !isClicked
+            }
     )
     Text(
         text = if (isClicked) "${count + 1}" else count.toString(),
@@ -147,6 +129,8 @@ fun TweetContent(tweetData: TweetData, modifier: Modifier) {
         TweetText(tweetData.text)
 
         TweetMedia(tweetData.media)
+
+        TweetSocial(tweetData, modifier = Modifier)
     }
 }
 
@@ -165,13 +149,13 @@ fun TweetMedia(media: Int) {
 
 @Composable
 fun TweetText(text: String) {
-    Text(text = text, overflow = TextOverflow.Clip, modifier = Modifier.padding(bottom = 10.dp))
+    Text(text = text, modifier = Modifier.padding(bottom = 10.dp))
 }
 
 @Composable
 fun TweetHeaderUser(user: UserData, sincePosted: String) {
     ConstraintLayout(
-        modifier = Modifier.padding(bottom = 5.dp)
+        modifier = Modifier.fillMaxWidth().padding(bottom = 5.dp)
     ) {
         val (userName, userId, sincePostedId, actions) = createRefs()
         Text(
