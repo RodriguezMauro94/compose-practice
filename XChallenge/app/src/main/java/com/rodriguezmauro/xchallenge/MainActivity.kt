@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -30,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,10 +47,16 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             XChallengeTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(modifier = Modifier
+                    .background(Color(0xFF161D26))
+                    .fillMaxSize()) { innerPadding ->
                     Column(
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .background(Color(0xFF161D26))
                     ) {
+                        Tweet(getChallengeTweet())
+                        Tweet(getChallengeTweet())
                         Tweet(getChallengeTweet())
                     }
                 }
@@ -59,7 +67,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Tweet(tweetData: TweetData) {
-    Row {
+    Row(
+        modifier = Modifier.background(Color(0xFF161D26))
+    ) {
         TweetUserAvatar(
             tweetData.user,
             modifier = Modifier
@@ -69,8 +79,8 @@ fun Tweet(tweetData: TweetData) {
             tweetData,
             modifier = Modifier
                 .padding(
-                    top = 15.dp,
-                    end = 15.dp
+                    top = 16.dp,
+                    end = 16.dp
                 )
         )
     }
@@ -79,16 +89,18 @@ fun Tweet(tweetData: TweetData) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 15.dp),
-        color = Color.LightGray
+        color = Color.Gray
     )
 }
 
 @Composable
 fun TweetSocial(tweetData: TweetData, modifier: Modifier) {
     Row(
-        modifier = modifier.fillMaxWidth().padding(top = 10.dp)
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 10.dp)
     ) {
-        ActionSocialIcon(R.drawable.ic_chat, tweetData.comments, Color.Black)
+        ActionSocialIcon(R.drawable.ic_chat, tweetData.comments, Color.Gray)
         ActionSocialIcon(R.drawable.ic_rt, tweetData.retweets, Color.Green)
         ActionSocialIcon(R.drawable.ic_like, tweetData.likes, Color.Red)
     }
@@ -103,16 +115,17 @@ fun ActionSocialIcon(@DrawableRes icon: Int, count: Int, activeColor: Color) {
     Icon(
         painter = painterResource(id = icon),
         contentDescription = "Comments",
-        tint = if(isClicked) activeColor else Color.Black,
+        tint = if(isClicked) activeColor else Color.Gray,
         modifier = Modifier
             .padding(end = 5.dp)
             .clickable {
                 isClicked = !isClicked
             }
     )
-    Text(
+    XText(
         text = if (isClicked) "${count + 1}" else count.toString(),
-        modifier = Modifier.padding(end = 50.dp)
+        modifier = Modifier.padding(end = 50.dp),
+        color = Color.Gray
     )
 }
 
@@ -151,34 +164,40 @@ fun TweetMedia(media: Int) {
 
 @Composable
 fun TweetText(text: String) {
-    Text(text = text, modifier = Modifier.padding(bottom = 10.dp))
+    XText(text = text, modifier = Modifier.padding(bottom = 10.dp))
 }
 
 @Composable
 fun TweetHeaderUser(user: UserData, sincePosted: String) {
     ConstraintLayout(
-        modifier = Modifier.fillMaxWidth().padding(bottom = 5.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 5.dp)
     ) {
         val (userName, userId, sincePostedId, actions) = createRefs()
-        Text(
+        XText(
             text = user.userName,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.constrainAs(userName) {
                 start.linkTo(parent.start)
             })
-        Text(text = user.userId,
+        XText(text = user.userId,
             Modifier
                 .padding(start = 5.dp)
                 .constrainAs(userId) {
                     start.linkTo(userName.end)
-                })
-        Text(text = sincePosted,
+                },
+            color = Color.Gray
+        )
+        XText(text = sincePosted,
             Modifier
                 .padding(start = 5.dp)
                 .constrainAs(sincePostedId) {
                     start.linkTo(userId.end)
-                })
-        Text(text = "...", modifier = Modifier.constrainAs(actions) {
+                },
+            color = Color.Gray
+        )
+        Icon(painterResource(id = R.drawable.ic_dots), contentDescription = "", tint = Color.White, modifier = Modifier.constrainAs(actions) {
             end.linkTo(parent.end)
         })
     }
@@ -223,3 +242,8 @@ fun getChallengeTweet(): TweetData = TweetData(
     retweets = 1,
     likes = 0
 )
+
+@Composable
+fun XText(text: String, modifier: Modifier, color: Color? = null, fontWeight: FontWeight? = null) {
+    Text(text = text, modifier = modifier, color = color ?: Color.White, fontWeight = fontWeight)
+}
