@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.rodriguezmauro.jetpackcomponentcatalog.recyclerview.SimpleRecyclerView
 import com.rodriguezmauro.jetpackcomponentcatalog.ui.theme.JetpackComponentCatalogTheme
 
 class MainActivity : ComponentActivity() {
@@ -41,7 +42,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetpackComponentCatalogTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MyStateExample(Modifier.padding(innerPadding))
+                    SimpleRecyclerView()
                 }
             }
         }
