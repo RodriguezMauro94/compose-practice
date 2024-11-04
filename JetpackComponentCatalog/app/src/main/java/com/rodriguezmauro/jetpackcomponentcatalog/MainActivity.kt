@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.rodriguezmauro.jetpackcomponentcatalog.recyclerview.SimpleRecyclerView
 import com.rodriguezmauro.jetpackcomponentcatalog.recyclerview.SuperHeroGridView
 import com.rodriguezmauro.jetpackcomponentcatalog.recyclerview.SuperHeroView
+import com.rodriguezmauro.jetpackcomponentcatalog.recyclerview.SuperHeroWithSpecialControlsView
 import com.rodriguezmauro.jetpackcomponentcatalog.ui.theme.JetpackComponentCatalogTheme
 
 class MainActivity : ComponentActivity() {
@@ -44,7 +45,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetpackComponentCatalogTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    SuperHeroGridView()
+                    SuperHeroWithSpecialControlsView()
                 }
             }
         }
