@@ -2,6 +2,7 @@ package com.rodriguezmauro.jetpackcomponentcatalog.recyclerview
 
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -55,11 +56,48 @@ fun SimpleRecyclerView() {
 fun SuperHeroView() {
     val context = LocalContext.current
     LazyColumn(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(getSuperHeroes()) { superHero ->
             ItemHero(superHero) {
                 Toast.makeText(context, it.superHeroName, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun SuperHeroStickyView() {
+    val context = LocalContext.current
+    val superHero: Map<String, List<SuperHero>> = getSuperHeroes().groupBy { it.publisher }
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        superHero.forEach { (publisher, mySuperHero) ->
+
+            stickyHeader {
+                Text(
+                    text = publisher,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.Black),
+                    fontSize = 16.sp,
+                    color = Color.White
+                )
+            }
+
+            items(mySuperHero) { superHero ->
+                ItemHero(superHero) {
+                    Toast.makeText(context, it.superHeroName, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -93,13 +131,15 @@ fun SuperHeroWithSpecialControlsView() {
         }
 
         if (showButton.value) {
-            Button(onClick = {
-                coroutinesScope.launch {
-                    rvState.animateScrollToItem(0)
-                }
-            }, modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(16.dp)) {
+            Button(
+                onClick = {
+                    coroutinesScope.launch {
+                        rvState.animateScrollToItem(0)
+                    }
+                }, modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(16.dp)
+            ) {
                 Text(text = "Ir al inicio")
             }
         }
