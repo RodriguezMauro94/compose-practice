@@ -55,7 +55,6 @@ fun ScaffoldExample() {
     val coroutineScope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
-
     ModalNavigationDrawer(
         drawerState = drawerState,
         gesturesEnabled = false,
