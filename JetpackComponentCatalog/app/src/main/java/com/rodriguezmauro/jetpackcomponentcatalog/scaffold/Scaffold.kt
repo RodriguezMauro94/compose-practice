@@ -58,28 +58,28 @@ fun ScaffoldExample() {
 
     ModalNavigationDrawer(
         drawerState = drawerState,
+        gesturesEnabled = false,
         drawerContent = {
             ModalDrawerSheet {
                 MyDrawer {
-                    coroutineScope.launch { drawerState.apply { close() } }
+                    coroutineScope.launch { drawerState.close() }
                 }
             }
         }) {
         Scaffold(
             topBar = {
-                MyTopAppBar { option ->
-
+                MyTopAppBar (onClick = {
                     coroutineScope.launch {
-                        if (option.toLowerCase() == "menu") {
-                            drawerState.open()
-                        } else {
-                            snackBarHostState.showSnackbar(
-                                message = "Has pulsado $option",
-                                duration = SnackbarDuration.Short
-                            )
-                        }
+                        snackBarHostState.showSnackbar(
+                            message = "Has pulsado $it",
+                            duration = SnackbarDuration.Short
+                        )
                     }
-                }
+                }, onClickDrawer = {
+                    coroutineScope.launch {
+                        drawerState.open()
+                    }
+                })
             },
             snackbarHost = {
                 SnackbarHost(hostState = snackBarHostState, snackbar = {
@@ -109,7 +109,7 @@ fun ScaffoldExample() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTopAppBar(onClick: (String) -> Unit) {
+fun MyTopAppBar(onClick: (String) -> Unit, onClickDrawer: () -> Unit) {
     TopAppBar(
         title = { Text(text = "Mi primera toolbar") },
         colors = TopAppBarColors(
@@ -121,7 +121,7 @@ fun MyTopAppBar(onClick: (String) -> Unit) {
         ),
         navigationIcon = {
             IconButton(onClick = {
-                onClick("Menu")
+                onClickDrawer()
             }) {
                 Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu")
             }
