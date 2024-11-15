@@ -16,7 +16,7 @@ fun ScreenOne(navController: NavHostController) {
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color.Cyan)) {
-        Text(text = "Pantalla Uno", modifier = Modifier.align(Alignment.Center).clickable { navController.navigate("screenTwoId") })
+        Text(text = "Pantalla Uno", modifier = Modifier.align(Alignment.Center).clickable { navController.navigate(Routes.ScreenTwo.route) })
     }
 }
 
@@ -25,7 +25,7 @@ fun ScreenTwo(navController: NavHostController) {
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color.Green)) {
-        Text(text = "Pantalla Dos", modifier = Modifier.align(Alignment.Center).clickable { navController.navigate("screenThreeId") })
+        Text(text = "Pantalla Dos", modifier = Modifier.align(Alignment.Center).clickable { navController.navigate(Routes.ScreenThree.route) })
     }
 }
 
@@ -34,6 +34,6 @@ fun ScreenThree(navController: NavHostController) {
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color.Magenta)) {
-        Text(text = "Pantalla Tres", modifier = Modifier.align(Alignment.Center).clickable { navController.navigate("screenOneId") })
+        Text(text = "Pantalla Tres", modifier = Modifier.align(Alignment.Center).clickable { navController.navigate(Routes.ScreenOne.route) })
     }
 }

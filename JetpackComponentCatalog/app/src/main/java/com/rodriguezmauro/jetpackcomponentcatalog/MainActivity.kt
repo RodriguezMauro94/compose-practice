@@ -49,10 +49,10 @@ class MainActivity : ComponentActivity() {
                     //ScaffoldExample()
 
                     val navigationController = rememberNavController()
-                    NavHost(navController = navigationController, startDestination = "screenOneId") {
-                        composable(route = "screenOneId") { ScreenOne(navigationController) }
-                        composable(route = "screenTwoId") { ScreenTwo(navigationController) }
-                        composable(route = "screenThreeId") { ScreenThree(navigationController) }
+                    NavHost(navController = navigationController, startDestination = Routes.ScreenOne.route) {
+                        composable(route = Routes.ScreenOne.route) { ScreenOne(navigationController) }
+                        composable(route = Routes.ScreenTwo.route) { ScreenTwo(navigationController) }
+                        composable(route = Routes.ScreenThree.route) { ScreenThree(navigationController) }
                     }
 
                 }
