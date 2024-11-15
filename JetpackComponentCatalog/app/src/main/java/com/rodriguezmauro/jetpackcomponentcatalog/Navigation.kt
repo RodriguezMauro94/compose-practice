@@ -47,7 +47,7 @@ fun ScreenThree(navController: NavHostController) {
         Text(text = "Pantalla Tres", modifier = Modifier
             .align(Alignment.Center)
             .clickable {
-                navController.navigate(Routes.ScreenFour.route.replace("{name}", "pepe"))
+                navController.navigate(Routes.ScreenFour.createRoute("pepe"))
             })
     }
 }
@@ -59,6 +59,17 @@ fun ScreenFour(navController: NavHostController, name: String) {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        Text(text = "Nombre: $name", modifier = Modifier.align(Alignment.Center))
+        Text(text = "Nombre: $name", modifier = Modifier.align(Alignment.Center).clickable { navController.navigate(Routes.ScreenFive.createRoute(18)) })
+    }
+}
+
+@Composable
+fun ScreenFive(navController: NavHostController, age: Int? = 1) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Gray)
+    ) {
+        Text(text = "Tengo: $age años", modifier = Modifier.align(Alignment.Center))
     }
 }

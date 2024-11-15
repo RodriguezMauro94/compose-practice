@@ -73,6 +73,15 @@ class MainActivity : ComponentActivity() {
                             val name = backStackEntry.arguments?.getString("name").orEmpty()
                             ScreenFour(navigationController, name)
                         }
+                        composable(
+                            route = Routes.ScreenFive.route,
+                            arguments = listOf(navArgument("age") {
+                                defaultValue = 1
+                            })
+                        ) { backStackEntry ->
+                            val age = backStackEntry.arguments?.getInt("age")
+                            ScreenFive(navigationController, age)
+                        }
                     }
 
                 }
