@@ -32,12 +32,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.rodriguezmauro.jetpackcomponentcatalog.recyclerview.SimpleRecyclerView
-import com.rodriguezmauro.jetpackcomponentcatalog.recyclerview.SuperHeroGridView
-import com.rodriguezmauro.jetpackcomponentcatalog.recyclerview.SuperHeroStickyView
-import com.rodriguezmauro.jetpackcomponentcatalog.recyclerview.SuperHeroView
-import com.rodriguezmauro.jetpackcomponentcatalog.recyclerview.SuperHeroWithSpecialControlsView
-import com.rodriguezmauro.jetpackcomponentcatalog.scaffold.ScaffoldExample
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.rodriguezmauro.jetpackcomponentcatalog.ui.theme.JetpackComponentCatalogTheme
 
 class MainActivity : ComponentActivity() {
@@ -46,8 +43,18 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             JetpackComponentCatalogTheme {
-                Scaffold(modifier = Modifier.fillMaxSize().padding(top = 20.dp)) { innerPadding ->
-                    ScaffoldExample()
+                Scaffold(modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 20.dp)) { innerPadding ->
+                    //ScaffoldExample()
+
+                    val navigationController = rememberNavController()
+                    NavHost(navController = navigationController, startDestination = "screenOneId") {
+                        composable(route = "screenOneId") { ScreenOne(navigationController) }
+                        composable(route = "screenTwoId") { ScreenTwo(navigationController) }
+                        composable(route = "screenThreeId") { ScreenThree(navigationController) }
+                    }
+
                 }
             }
         }
