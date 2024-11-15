@@ -13,27 +13,52 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun ScreenOne(navController: NavHostController) {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(Color.Cyan)) {
-        Text(text = "Pantalla Uno", modifier = Modifier.align(Alignment.Center).clickable { navController.navigate(Routes.ScreenTwo.route) })
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Cyan)
+    ) {
+        Text(text = "Pantalla Uno", modifier = Modifier
+            .align(Alignment.Center)
+            .clickable { navController.navigate(Routes.ScreenTwo.route) })
     }
 }
 
 @Composable
 fun ScreenTwo(navController: NavHostController) {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(Color.Green)) {
-        Text(text = "Pantalla Dos", modifier = Modifier.align(Alignment.Center).clickable { navController.navigate(Routes.ScreenThree.route) })
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Green)
+    ) {
+        Text(text = "Pantalla Dos", modifier = Modifier
+            .align(Alignment.Center)
+            .clickable { navController.navigate(Routes.ScreenThree.route) })
     }
 }
 
 @Composable
 fun ScreenThree(navController: NavHostController) {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(Color.Magenta)) {
-        Text(text = "Pantalla Tres", modifier = Modifier.align(Alignment.Center).clickable { navController.navigate(Routes.ScreenOne.route) })
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Magenta)
+    ) {
+        Text(text = "Pantalla Tres", modifier = Modifier
+            .align(Alignment.Center)
+            .clickable {
+                navController.navigate(Routes.ScreenFour.route.replace("{name}", "pepe"))
+            })
+    }
+}
+
+@Composable
+fun ScreenFour(navController: NavHostController, name: String) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        Text(text = "Nombre: $name", modifier = Modifier.align(Alignment.Center))
     }
 }

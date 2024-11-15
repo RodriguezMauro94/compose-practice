@@ -32,9 +32,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.rodriguezmauro.jetpackcomponentcatalog.ui.theme.JetpackComponentCatalogTheme
 
 class MainActivity : ComponentActivity() {
@@ -43,16 +45,34 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             JetpackComponentCatalogTheme {
-                Scaffold(modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 20.dp)) { innerPadding ->
+                Scaffold(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 20.dp)
+                ) { innerPadding ->
                     //ScaffoldExample()
 
                     val navigationController = rememberNavController()
-                    NavHost(navController = navigationController, startDestination = Routes.ScreenOne.route) {
+                    NavHost(
+                        navController = navigationController,
+                        startDestination = Routes.ScreenOne.route
+                    ) {
                         composable(route = Routes.ScreenOne.route) { ScreenOne(navigationController) }
                         composable(route = Routes.ScreenTwo.route) { ScreenTwo(navigationController) }
-                        composable(route = Routes.ScreenThree.route) { ScreenThree(navigationController) }
+                        composable(route = Routes.ScreenThree.route) {
+                            ScreenThree(
+                                navigationController
+                            )
+                        }
+                        composable(
+                            route = Routes.ScreenFour.route,
+                            arguments = listOf(navArgument("name") {
+                                type = NavType.StringType
+                            })
+                        ) { backStackEntry ->
+                            val name = backStackEntry.arguments?.getString("name").orEmpty()
+                            ScreenFour(navigationController, name)
+                        }
                     }
 
                 }
@@ -67,7 +87,11 @@ fun MyStateExample(modifier: Modifier? = null) {
     var counter by rememberSaveable {
         mutableIntStateOf(0)
     }
-    Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Button(onClick = {
             counter += 1
         }) {
@@ -81,39 +105,49 @@ fun MyStateExample(modifier: Modifier? = null) {
 @Composable
 fun MyComplexLayout(modifier: Modifier? = null) {
     Column(modifier = Modifier.fillMaxSize()) {
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .weight(1f)
-            .background(Color.Cyan),
-            contentAlignment = Alignment.Center){
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .background(Color.Cyan),
+            contentAlignment = Alignment.Center
+        ) {
             Text(text = "Ejemplo 1")
         }
         MySpacer(30)
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .weight(1f)) {
-            Box(modifier = Modifier
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
                 .weight(1f)
-                .fillMaxHeight()
-                .background(Color.Red),
-                contentAlignment = Alignment.Center){
+        ) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .background(Color.Red),
+                contentAlignment = Alignment.Center
+            ) {
                 Text(text = "Ejemplo 2")
             }
             Spacer(modifier = Modifier.width(30.dp))
-            Box(modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight()
-                .background(Color.Green),
-                contentAlignment = Alignment.Center) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .background(Color.Green),
+                contentAlignment = Alignment.Center
+            ) {
                 Text(text = "Ejemplo 3")
             }
         }
         MySpacer(80)
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .weight(1f)
-            .background(Color.Magenta),
-            contentAlignment = Alignment.BottomCenter){
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .background(Color.Magenta),
+            contentAlignment = Alignment.BottomCenter
+        ) {
             Text(text = "Ejemplo 4")
         }
     }
@@ -135,7 +169,9 @@ fun MyRow(modifier: Modifier? = null) {
     Row(
         Modifier
             .fillMaxSize()
-            .horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.SpaceBetween) {
+            .horizontalScroll(rememberScrollState()),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
         Text(text = "Ejemplo 1", modifier = Modifier.width(100.dp))
         Text(text = "Ejemplo 2", modifier = Modifier.width(100.dp))
         Text(text = "Ejemplo 3", modifier = Modifier.width(100.dp))
@@ -147,24 +183,36 @@ fun MyRow(modifier: Modifier? = null) {
 
 @Composable
 fun MyColumn(modifier: Modifier? = null) {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.SpaceEvenly ) {
-        Text(text = "Ejemplo 1", modifier = Modifier
-            .height(55.dp)
-            .background(Color.Red))
-        Text(text = "Ejemplo 2", modifier = Modifier
-            .height(55.dp)
-            .background(Color.Black))
-        Text(text = "Ejemplo 3", modifier = Modifier
-            .height(55.dp)
-            .background(Color.Cyan))
-        Text(text = "Ejemplo 4", modifier = Modifier
-            .height(55.dp)
-            .background(Color.Blue))
-        Text(text = "Ejemplo 4", modifier = Modifier
-            .height(55.dp)
-            .background(Color.Blue))
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.SpaceEvenly
+    ) {
+        Text(
+            text = "Ejemplo 1", modifier = Modifier
+                .height(55.dp)
+                .background(Color.Red)
+        )
+        Text(
+            text = "Ejemplo 2", modifier = Modifier
+                .height(55.dp)
+                .background(Color.Black)
+        )
+        Text(
+            text = "Ejemplo 3", modifier = Modifier
+                .height(55.dp)
+                .background(Color.Cyan)
+        )
+        Text(
+            text = "Ejemplo 4", modifier = Modifier
+                .height(55.dp)
+                .background(Color.Blue)
+        )
+        Text(
+            text = "Ejemplo 4", modifier = Modifier
+                .height(55.dp)
+                .background(Color.Blue)
+        )
 
     }
 }
@@ -172,14 +220,16 @@ fun MyColumn(modifier: Modifier? = null) {
 @Composable
 fun MyBox(modifier: Modifier? = null) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Box(modifier = Modifier
-            .width(200.dp)
-            .height(200.dp)
-            .background(Color.Cyan)
-            .verticalScroll(
-                rememberScrollState()
-            ),
-            contentAlignment = Alignment.Center) {
+        Box(
+            modifier = Modifier
+                .width(200.dp)
+                .height(200.dp)
+                .background(Color.Cyan)
+                .verticalScroll(
+                    rememberScrollState()
+                ),
+            contentAlignment = Alignment.Center
+        ) {
             Text(text = "Esto es un ejemplo")
         }
     }
