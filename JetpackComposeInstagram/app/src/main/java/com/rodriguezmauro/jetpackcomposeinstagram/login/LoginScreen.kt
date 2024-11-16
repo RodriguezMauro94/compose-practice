@@ -1,6 +1,7 @@
-package com.rodriguezmauro.jetpackcomposeinstagram
+package com.rodriguezmauro.jetpackcomposeinstagram.login
 
 import android.app.Activity
+import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -40,9 +41,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.rodriguezmauro.jetpackcomposeinstagram.R
 
 @Composable
 fun LoginScreen() {
@@ -87,10 +88,12 @@ fun Body(modifier: Modifier) {
         Spacer(modifier = Modifier.size(16.dp))
         Email(email) {
             email = it
+            isLoginEnabled = enableLogin(email, password)
         }
         Spacer(modifier = Modifier.size(4.dp))
         Password(password) {
             password = it
+            isLoginEnabled = enableLogin(email, password)
         }
         Spacer(modifier = Modifier.size(8.dp))
         ForgotPassword(modifier = Modifier.align(Alignment.End))
@@ -102,6 +105,9 @@ fun Body(modifier: Modifier) {
         SocialLogin()
     }
 }
+
+fun enableLogin(email: String, password: String)
+ = Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length > 6
 
 @Composable
 fun Footer(modifier: Modifier) {
