@@ -1,7 +1,6 @@
-package com.rodriguezmauro.jetpackcomposeinstagram.login
+package com.rodriguezmauro.jetpackcomposeinstagram.login.ui
 
 import android.app.Activity
-import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
